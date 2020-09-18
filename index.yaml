@@ -1,3 +1,13 @@
 apiVersion: v1
-entries: {}
-generated: "2020-09-17T21:48:09.29728542-05:00"
+entries:
+  cicada-operator-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-09-17T22:16:04.266259763-05:00"
+    description: Kubernetes objects for running cicada
+    digest: 0c4e29fd54f6fa9ba33b393ee4402b9a965e003d562138ebcffbb76de43b097e
+    name: cicada-operator-chart
+    urls:
+    - https://cicadatesting.github.io/cicada-charts/cicada-operator-chart-0.1.0.tgz
+    version: 0.1.0
+generated: "2020-09-17T22:16:04.265941554-05:00"
