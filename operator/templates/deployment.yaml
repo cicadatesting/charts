@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicada-operator
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      run: cicada-operator
+  template:
+    metadata:
+      labels:
+        run: cicada-operator
+    spec:
+      serviceAccountName: cicada-operator-account
+      containers:
+      - name: cicada-operator
+        image: jeremyaherzog/cicada-2-operator:latest
