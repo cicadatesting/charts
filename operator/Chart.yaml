@@ -1,0 +1,5 @@
+apiVersion: v2
+name: cicada-operator-chart
+description: Kubernetes objects for running cicada
+version: 0.1.0
+appVersion: 1.16.0

@@ -1,0 +1,95 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: testengines.cicada.io
+spec:
+  scope: Namespaced
+  group: cicada.io
+  names:
+    kind: TestEngine
+    plural: testengines
+    singular: testengine
+    shortNames:
+      - te
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: kubernetes object to create test engine with automated file initializers
+          properties:
+            spec:
+              type: object
+              description: Describes configuration to run cicada engine and initializers
+              properties:
+                dependencies:
+                  type: array
+                  items:
+                    type: object
+                    description: Checks on dependent pods to perform before beginning test engine creation
+                    properties:
+                      name:
+                        type: string
+                        description: Name of pod to check statuses of (optional)
+                      labels:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                        description: Labels to find pods with if name is not specified
+                      statuses:
+                        type: array
+                        description: List of allowed statuses for found pods to be in for check to succeed
+                        items:
+                          type: string
+                          description: Status pod can be in for check to succeed
+                ioConfig:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                  description: Environment vars to use in IO Initializer pod for uploading/downloading files
+                engineConfig:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                  description: Environment vars to pass to cicada engine
+                tests:
+                  type: object
+                  description: Specifies how to load tests into cicada
+                  properties:
+                    pvc:
+                      type: string
+                      description: PersistentVolumeClaim where tests are stored in
+                    mountPath:
+                      type: string
+                      description: Path to mount tests PVC to in Cicada engine
+                    localPath:
+                      type: string
+                      description: Path to download tests to in IO initializer
+                    remotePath:
+                      type: string
+                      description: Path to remotely stored tests
+                  required:
+                    - pvc
+                reports:
+                  type: object
+                  description: Specifies how to store reports from cicada
+                  properties:
+                    pvc:
+                      type: string
+                      description: PersistentVolumeClaim to store reports in
+                    mountPath:
+                      type: string
+                      description: Path to mount reports PVC to in Cicada engine
+                    localPath:
+                      type: string
+                      description: Path in IO Initializer to upload reports from
+                    remotePath:
+                      type: string
+                      description: Remote path to upload reports to
+                  required:
+                    - pvc
+              required:
+                - tests
+                - reports
+            status:
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
